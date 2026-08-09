@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8DD48209-BB08-4E7C-884C-D30E9D64D954}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Indy\FireLinkMCPIndy.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Stdio\FireLinkMCP.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FireLinkMCPIndy">
+        <MSBuild Projects="Indy\FireLinkMCPIndy.dproj"/>
+    </Target>
+    <Target Name="FireLinkMCPIndy:Clean">
+        <MSBuild Projects="Indy\FireLinkMCPIndy.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FireLinkMCPIndy:Make">
+        <MSBuild Projects="Indy\FireLinkMCPIndy.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FireLinkMCP">
+        <MSBuild Projects="Stdio\FireLinkMCP.dproj"/>
+    </Target>
+    <Target Name="FireLinkMCP:Clean">
+        <MSBuild Projects="Stdio\FireLinkMCP.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FireLinkMCP:Make">
+        <MSBuild Projects="Stdio\FireLinkMCP.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FireLinkMCPIndy;FireLinkMCP"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FireLinkMCPIndy:Clean;FireLinkMCP:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FireLinkMCPIndy:Make;FireLinkMCP:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
