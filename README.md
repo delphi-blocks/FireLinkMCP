@@ -34,6 +34,27 @@ FireDAC can talk to far more engines than this server currently wires up, and be
 
 Adding one is deliberately cheap: the MCP layer depends on an abstraction (`IDatabaseManager`) with no FireDAC types in it. Subclass `TDatabaseManagerBase`, register the new type key in the unit's `initialization`, and reference it from the config file. No MCP or tool code changes.
 
+## Installation
+
+FireLink uses the stdio transport, so it works with any MCP-compatible client — Claude Code, Claude Desktop, Cursor, Windsurf, Continue, and others. The setup is the same everywhere: point your client at the executable and let MCP handle the rest.
+
+1. Download `FireLinkMCP.exe` from the [latest release](https://github.com/delphi-blocks/FireLinkMCP/releases) and place it in a folder of your choice (e.g. `C:\Tools\FireLinkMCP\`).
+
+2. Register the server in your client's MCP configuration. The exact file location varies by client, but the JSON block is the same. For Claude Code, add it to `.mcp.json` in your project root or to `%USERPROFILE%\.claude\settings.json` for global access:
+
+```json
+{
+  "mcpServers": {
+    "firelink": {
+      "command": "C:\\Tools\\FireLinkMCP\\FireLinkMCP.exe",
+      "args": []
+    }
+  }
+}
+```
+
+3. Restart your client. On first run FireLink creates a commented example configuration at `%USERPROFILE%\.FireLink\databases.ini` — edit it to add your database connections, then restart the client again.
+
 ## Configuration
 
 Connections live in `%USERPROFILE%\.FireLink\databases.ini`, outside the repository. The file is created with fully commented examples on first run — read it, it documents every key. In short: one `[section]` per database (the section name is what requests refer to), a required `Type`, an optional `Password` carrying an explicit scheme (`env:`, `plain:`, `dpapi:`), and every other key passed straight to FireDAC as a connection parameter.
